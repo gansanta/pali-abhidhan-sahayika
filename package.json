@@ -7,7 +7,8 @@
     "name": "gsb"
   },
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build-exe": "electron-packager . --platform=win32 --arch=x64 paliabhidhansahayika --icon=./assets/images/picon.ico --extra-resource='./assets/'"
   },
   "devDependencies": {
     "electron": "^16.0.4"
