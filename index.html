@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>পালি অভিধান সহায়িকা windows</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/palidict.css?sfs" /> 
+
+    <script src="./js/index.js?fs" charset="utf-8"></script>
+    <script src="./js/zw_uni.js?fs" charset="utf-8"></script>
+   
+</head>
+<body>
+    <div>
+        <div class="headerdiv ben">
+            <div class="header">পালি অভিধান সহায়িকা windows</div>
+        </div>
+        <div id="testactiondiv"></div>
+        <div id="bigwrapper" class="bigwrapper">
+            <div id="left">
+                <div id="inwrapperparent" class="inwrapperparent">
+                    <div class="inputwrapper">
+						<div class="inputdiv">
+                            <input id="paliinput" list="palioptions"  placeholder="পালি শব্দ সার্চ" type="search" disabled="true" />
+                            <datalist id="palioptions"></datalist>
+                            <button id="startbtn" title="start search">start<br>search</button>
+                        </div>
+                        <button id="prevword" title="previous word">prev <br><<</button>
+                        <button id="nextword" title="next word">next <br>>></button>
+                    </div>
+                    <div id="paliinfo" class="paliinfo"></div>
+                    <div id="palidata" class="palidata"></div>
+                </div>
+                <div id="progressbar"></div>
+                
+                <div class="dividerdivend"></div>
+    
+                <div class="parentlistdiv">
+                    <div class="listdiv"><ol id="wordlist"></ol></div>
+                    <div id="vinchart"  class="chart">
+                        <ol id="wordmeaning"></ol>
+                    </div>
+                </div>
+            </div>
+            <div id="right">
+                <div class="inputdiv">
+                    <input id="enginput" class="enginput"  placeholder="eng search" type="search" />
+                </div>
+                <div class="dividerdivend"></div>
+                <div id="engmeaning"></div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
+

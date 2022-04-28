@@ -1,0 +1,475 @@
+
+@font-face{
+    font-family: AdorshoLipi;
+    src: url("../font/AdorshoLipi.ttf");
+}
+@font-face{
+    font-family: Padauk;
+    src: url("../font/Padauk-Regular.ttf");
+}
+
+@font-face{
+    font-family: Zawgyi;
+    src: url("../font/Zawgyi-One-20051130.ttf");
+}
+
+body{
+    border: 1px solid darkcyan;
+    background-color: rgb(207, 203, 203);
+    color: black;
+    font-family: AdorshoLipi, Zawgyi, Padauk ;
+}
+
+.dividerdivend{
+    margin-top: 5px;
+    width: 100%;
+    height: 30px;
+    background-color: #181716;
+}
+.headerdiv{
+    text-align: center;
+    color: rgb(0, 0, 0);
+}
+.ben{
+    font-family: AdorshoLipi;
+}
+.controllerdiv{
+    display: flex;
+    flex-direction: row;
+}
+
+hr{
+    margin-top: 0;
+    height: 0;
+    border: 4px solid darkred;
+    flex: 9;
+}
+.outerbar{
+    width: 100%;
+    height: 40px;
+    background-color: black;
+    position: relative;
+    margin: 1px;
+}
+.innerbar{
+    width:0%;
+    height: 100%;
+    background-color: rgb(151, 33, 33);
+    text-align: center;
+}
+.percentagebar{
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 100;
+    opacity: 1;
+    text-align: center;
+    color: rgb(255, 253, 253);
+}
+.bigwrapper{
+    display:flex;
+    flex-direction: row;
+}
+
+#left{
+    flex: 3;
+}
+#right{
+    flex: 1;
+}
+
+.inwrapperparent{
+    display: flex;
+    flex-direction: column;
+}
+.palidata{
+    text-align: center;
+}
+.show{
+    display: block;
+}
+.inputwrapper{
+    display: flex;
+    flex-direction: row;
+}
+.inputlabel{
+    padding: 10px;
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inputdiv{
+    text-align: center;
+    flex: 3;
+}
+#paliinput, .genericinput{
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: AdorshoLipi;
+  }
+.paliinfo{
+    text-align: center;
+}
+#engmeaning{
+    white-space: normal;
+    padding: 10px;
+}
+  #startdateinput{
+    width: 80%;
+    padding: 12px 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+#mmstartdateinput{
+width: 80%;
+padding: 12px 10px;
+margin: 8px 0;
+border-radius: 4px;
+font-size: 14px;
+}
+
+.inputbutton{
+    background-color: #4af391; /* Green */
+    border: 2px solid gray;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.inputbutton:hover{
+    background-color: #518f6b; /* Green */
+    cursor: pointer;
+}
+.inputbutton:active{
+    background-color: #629764;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+.buttondiv{
+    padding: 10px;
+    flex: 1;
+}
+.selectinputdiv{
+    flex: 1;
+}
+#engWordInput {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 14px;
+}
+select{
+    width: 100%;
+    padding: 20px;
+    margin-top: 10px;
+    border: none;
+    padding: 15px 32px;
+    display: inline-block;
+}
+#engwords{
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    max-height: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 1px solid gray;
+}
+
+.mminfo, .bwordInfo{
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid grey;
+}
+.parentlistdiv{
+    height: 70vh;
+    /*border: 1px solid black;*/
+    display: flex;
+    flex-direction: row;
+}
+.inputparentlistdiv{
+    height: 40vh;
+    /*border: 1px solid black;*/
+    display: flex;
+    flex-direction: row;
+}
+.phraselistdiv{
+    /*border: 1px solid rgb(18, 18, 20);*/
+    flex: 2;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+.wordlistdiv{
+    /*border: 1px solid rgb(14, 13, 13);*/
+    flex:1;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+.englistdiv{
+    /*border: 1px solid rgb(17, 15, 15);*/
+    flex:1;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+.listdiv{
+    /*border: 1px solid rgb(10, 9, 9);*/
+    flex:2;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+.listheaderdiv{
+    /*height: 70vh;*/
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    color: white;
+}
+.listheader{
+    /*border: 1px solid rgb(10, 9, 9);*/
+    flex:2;
+}
+.chart{
+    flex:5;
+    overflow: scroll;
+    border: 1px solid black;
+}
+.passed{
+    background-color: rgb(8, 202, 8);
+    font-weight: bold;
+}
+.failed{
+    background-color: rgb(231, 217, 14);
+    font-weight: bold;
+}
+.missed{
+    background-color: rgb(224, 25, 11);
+    font-weight: bold;
+}
+.wordli{
+    cursor: default;
+}
+.wordli:hover{
+    background-color: black;
+    color: white;
+}
+optgroup{
+    font-family: AdorshoLipi;
+}
+
+/*************chart table style starts*************/
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+tr{
+    height: 20px;
+}
+.theader{
+    background-color: rgb(21, 21, 39);
+    color: white;
+}
+.sticky{
+    position: sticky;
+    top: -3px;
+}
+td{
+    cursor: default;
+    font-weight: bold;
+    padding: 2px 10px;
+    text-align: center;
+}
+.liselected{
+    background-color: black;
+    color: white;
+    /*border: 3px solid black;*/
+}
+.tdselected{
+    border: 3px solid rgb(50, 33, 202);
+    background-color: black;
+    color: white;
+}
+.date{
+    white-space: nowrap;
+    background-color: rgb(21, 21, 39);
+    color: white;
+    width: 100px;
+    position: sticky;
+    left: -3px;
+    text-align: left;
+}
+.today{
+    white-space: nowrap;
+    background-color: rgb(156, 157, 209);
+    /*color: black;*/
+    width: 100px;
+    position: sticky;
+    left: -3px;
+    text-align: left;
+}
+.starttd{
+    background-color: rgb(216, 64, 216);
+}
+.nextReviewtd{
+    background-color: rgb(69, 169, 199);
+}
+.todaytr{
+    border: 4px solid black;
+}
+.modalDiv{
+    position: absolute;
+    z-index: 99;
+}
+/*************chart table style ends*************/
+
+
+/**************Tabs for Chart starts******************/
+/*  Tabs for Chart   */
+.charttabdiv, .tab{
+    flex:5;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+  /* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+  /* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/**************Tabs for Chart ends here******************/
+
+
+.lielement{
+    cursor: default; /*pointer*/
+    padding-left: 10px;
+    font-size: 14px;
+}
+.lielement:hover{
+    background-color: black;
+    color: white;
+    /*border: 3px solid rgb(9, 9, 14);*/
+}
+
+.meaningli{
+    /*font-family: 'Times New Roman', Zawgyi;*/
+    /*font-family: 'Times New Roman', Padauk;*/
+    
+    font-size: 20px;
+    padding: 10px 0;
+}
+.burmese {
+    font-family: Padauk; /*Zawgyi*/
+}
+.bangla{
+    font-family: AdorshoLipi;
+}
+.english{
+    font-family: 'Times New Roman';
+}
+
+ /* The Modal (background) */
+ .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  /* Modal Content/Box */
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  .closespandiv{
+      width: 100%;
+      text-align: right;
+  }
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .modalanswerbuttondiv{
+      text-align: center;
+  }
+
+.flex-contianer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  .left-btn {
+    border: 2px solid red;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .right-btn {
+    /*align-self: flex-end;*/
+    border: 2px solid green;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: bold;
+
+  }
+.hidden{
+    visibility: hidden;
+}
+.answer{
+    margin: 0;
+    padding: 0
+}
+  /* ********** Modal box css ends here****** */
