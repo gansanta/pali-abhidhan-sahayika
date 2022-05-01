@@ -93,6 +93,12 @@ hr{
 .inputwrapper{
     display: flex;
     flex-direction: row;
+    justify-content: center;
+}
+.outerinputdiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .inputlabel{
     padding: 10px;
@@ -105,16 +111,18 @@ hr{
     display: flex;
     flex-direction: row;
     text-align: center;
-    flex: 3;
 }
 #paliinput, .genericinput{
-    width: 50%;
-    padding: 12px 20px;
+    width: 100%;
+    padding: 10px 10px;
     margin: 8px 0;
     border-radius: 4px;
     font-size: 16px;
     font-family: AdorshoLipi;
   }
+#paliinput{
+    flex: 9;
+}
 .paliinfo{
     text-align: center;
 }
@@ -131,11 +139,11 @@ hr{
   }
 
 #mmstartdateinput{
-width: 80%;
-padding: 12px 10px;
-margin: 8px 0;
-border-radius: 4px;
-font-size: 14px;
+    width: 80%;
+    padding: 12px 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 .inputbutton{
@@ -475,9 +483,8 @@ td{
     padding: 0
 }
   /* ********** Modal box css ends here****** */
-  .specialchardiv{
-    display: flex;
-    flex-direction: column;
+.specialchardiv{
+   text-align: center;
 }
   .charspan{
     padding: 0 10px;

@@ -33,7 +33,60 @@ let dictnames = [
     {id:"Z", lang:"C", name: "《巴汉佛学辞汇》", author: "巴利文-汉文佛学名相辞汇 翻译：张文明"},
     {id:"X", lang:"C", name: "《巴利语入门》", author: "《巴利语入门》释性恩(Dhammajīvī)"},
 ]
+let bnromanall = [
+    {bn:"অ", en: "a", type:"vowel"},
+    {bn:"আ", en: "ā", type:"vowel"},
+    {bn:"ই", en: "i", type:"vowel"},
+    {bn:"ঈ", en: "ī", type:"vowel"},
+    {bn:"উ", en: "u", type:"vowel"},
+    {bn:"ঊ", en: "ū", type:"vowel"},
+    {bn:"এ", en: "e", type:"vowel"},
+    {bn:"ও", en: "o", type:"vowel"},
 
+    {bn:"ক", en: "k", type:"consonant"},
+    {bn:"খ", en: "kh", type:"consonant"},
+    {bn:"গ", en: "g", type:"consonant"},
+    {bn:"ঘ", en: "gh", type:"consonant"},
+    {bn:"ঙ", en: "ṅ", type:"consonant"},
+    {bn:"চ", en: "c", type:"consonant"},
+    {bn:"ছ", en: "ch", type:"consonant"},
+    {bn:"জ", en: "j", type:"consonant"},
+    {bn:"ঝ", en: "jh", type:"consonant"},
+    {bn:"ঞ", en: "ñ", type:"consonant"},
+    {bn:"ট", en: "ṭ", type:"consonant"},
+    {bn:"ঠ", en: "ṭh", type:"consonant"},
+    {bn:"ড", en: "ḍ", type:"consonant"},
+    {bn:"ঢ", en: "ḍh", type:"consonant"},
+    {bn:"ণ", en: "ṇ", type:"consonant"},
+    {bn:"ত", en: "t", type:"consonant"},
+    {bn:"থ", en: "th", type:"consonant"},
+    {bn:"দ", en: "d", type:"consonant"},
+    {bn:"ধ", en: "dh", type:"consonant"},
+    {bn:"ন", en: "n", type:"consonant"},
+    {bn:"প", en: "p", type:"consonant"},
+    {bn:"ফ", en: "ph", type:"consonant"},
+    {bn:"ব", en: "b", type:"consonant"},
+    {bn:"ভ", en: "bh", type:"consonant"},
+    {bn:"ম", en: "m", type:"consonant"},
+    {bn:"য", en: "y", type:"consonant"},
+    {bn:"র", en: "r", type:"consonant"},
+    {bn:"ল", en: "l", type:"consonant"},
+    {bn:"ৰ", en: "v", type:"consonant"},
+    {bn:"স", en: "s", type:"consonant"},
+    {bn:"হ", en: "h", type:"consonant"},
+    {bn:"ল়", en: "ḷ", type:"consonant"},
+    {bn:"ং", en: "ṃ", type:"consonant"},
+    {bn:"ং", en: "ṁ", type:"consonant"}, //ŋ ṁ
+    {bn:"ং", en: "ŋ", type:"consonant"},
+
+    {bn:"া", en: "ā", type:"vsign"},
+    {bn:"ি", en: "i", type:"vsign"},
+    {bn:"ী", en: "ī", type:"vsign"},
+    {bn:"ু", en: "u", type:"vsign"},
+    {bn:"ূ", en: "ū", type:"vsign"},
+    {bn:"ে", en: "e", type:"vsign"},
+    {bn:"ো", en: "o", type:"vsign"}
+]
 let t1
 
 let engbndict, engbndict2
@@ -213,6 +266,21 @@ function processTextNew(bntext){
         }
     }
 
+    //also take care of h
+    if(bntext.includes("্হ")){
+        //get its index and its previous char
+        let hindex = bntext.indexOf("্হ")
+        let prehindex = hindex-1
+        
+        if(prehindex-1 >= 0 && bntext[prehindex-1]+bntext[prehindex] == "ল়"){ //check if it is "ল়"
+            let newbntext = bntext.slice(0,prehindex-1) + bntext.slice(hindex+1)
+            bntext = newbntext
+        }
+        else if(prehindex >= 0){
+           let newbntext = bntext.slice(0,prehindex) + bntext.slice(hindex+1)
+           bntext = newbntext
+        }
+    }
     let firstchar = [...bntext][0]
     const folderpath = path.join(process.resourcesPath,"assets","db",firstchar,"/") 
     
@@ -383,11 +451,9 @@ function findAllDocs(db){
     })
 }
 
-
 function showBnWordlist(mdbngroups){
-    let loadingtime = ((performance.now()-t1)/1000).toFixed(2)
-    //paliinfo.innerHTML += "<br> showing BnWordlist... time elpased "+loadingtime+"s. please wait."
-
+    let bntext = document.getElementById("paliinput").value.trim()
+    
     let html = ""
     let bnwords = Object.keys(mdbngroups).sort()
     
@@ -397,17 +463,59 @@ function showBnWordlist(mdbngroups){
     let palioptions = document.getElementById("palioptions")
     palioptions.innerHTML = ""
 
+    
     for(let i=0; i<bnwords.length; i++){
         let bnword = bnwords[i]
         let bnworddocs = mdbngroups[bnword]
-        wordlist.appendChild(getLi(i, bnword, bnworddocs))
 
-        if(i == bnwords.length-1){
-            let loadingtime = ((performance.now()-t1)/1000).toFixed(2)
-            paliinfo.innerHTML = "<br> Search ended... time elpased "+loadingtime+"s."
-            paliinfo.innerHTML += "<br> "+bnwords.length+" words found. You may try with different spelling."
+        //check if bnword 
+        //also take care of h
+        if(bntext && bntext.includes("্হ")){
+            //get its index and its previous char
+            let hindex = bntext.indexOf("্হ")
+            let prehindex = hindex-1
+            if(prehindex >= 0){
+                let engchars = "h"
+                let prechar = bntext[prehindex]
+                let bb = bnromanall.filter(bn => bn.bn == prechar)
+                if(bb.length>0) engchars = bb[0].en+"h"
+                
+                let filtereddocs = bnworddocs.filter(bdoc => bdoc.paliword.includes(engchars) || bdoc.paliwordalt.includes(engchars) || bdoc.fuzzyspelling.includes(engchars))
+
+               
+                if(filtereddocs.length>0){
+                    wordlist.appendChild(getLi(i, bnword, filtereddocs))
+                }
+            }
+            
         }
+        else if(bntext && bntext.includes("হ")){
+            let hindex = bntext.indexOf("হ")
+            let prehindex = hindex-1
+            if(prehindex >= 0){
+                let engchars = "h"
+                let prechar = bntext[prehindex]
+                let bb = bnromanall.filter(bn => bn.bn == prechar)
+                if(bb.length>0) {
+                    if(bb[0].type == "consonant") engchars = bb[0].en+"ah"
+                    else if(bb[0].type == "vowel") engchars = bb[0].en+"h"
+                }
+
+                let filtereddocs = bnworddocs.filter(bdoc => bdoc.paliword.includes(engchars) || bdoc.paliwordalt.includes(engchars) || bdoc.fuzzyspelling.includes(engchars))
+
+                if(filtereddocs.length>0){
+                    wordlist.appendChild(getLi(i, bnword, filtereddocs))
+                }
+            }
+        }
+        else  wordlist.appendChild(getLi(i, bnword, bnworddocs))
+
+
     }
+
+    let loadingtime = ((performance.now()-t1)/1000).toFixed(2)
+    paliinfo.innerHTML = "<br> Search ended... time elpased "+loadingtime+"s."
+    paliinfo.innerHTML += "<br> "+bnwords.length+" words found. You may try with different spelling."
 
     function getLi(i, bnword, bnworddocs){
         let li = document.createElement("li")
@@ -418,11 +526,37 @@ function showBnWordlist(mdbngroups){
         if(bnword.includes("্ৰ")){
             displayword = bnword.replace(/্ৰ/g,"্ব")
         }
+
+        //also take care of h
+        if(bntext && bntext.includes("্হ")){
+            //get its index and its previous char
+            let hindex = bntext.indexOf("্হ")
+            let prehindex = hindex-1
+            
+
+            let bntexthindex = bntext.indexOf("্হ")
+            let pretext = bntext.slice(0, bntexthindex+1)
+            let bnwordhindex = bnword.indexOf("হ")
+            let bnwordtext = bnword.slice(bnwordhindex)
+            displayword = pretext + bnwordtext
+
+            //also treat for ba and va
+            if(bnword.includes("্ৰ")){
+                displayword = bnword.replace(/্ৰ/g,"্ব")
+            }
+        }
         
         li.innerHTML = displayword
-
+        
         li.onclick = ()=>{
             showMeaning(bnworddocs)
+
+            let liselecteds = document.querySelectorAll(".liselected")
+            liselecteds.forEach(sel => {
+                sel.classList.remove("liselected")
+            })
+
+            li.classList.add("liselected")
         }
 
         return li
@@ -464,25 +598,21 @@ function showBnWordlist(mdbngroups){
         if(dictid == "K" || dictid == "B" || dictid == "O" || dictid == "R") {
 			li.classList.add("burmese")
 			explanation = Z1_Uni(explanation)
-			li.innerHTML = explanation+ "<br><b>-"+dictnames.find(dict=>dict.id == dictid).name+"</b>"
 		}
         else{
 			li.classList.add("english")
-			li.innerHTML = explanation+ "<br><b>-"+dictnames.find(dict=>dict.id == dictid).name+"</b>"
 		}
         
+        let explsplits = explanation.split("：")
+        let headword = "<b>"+explsplits[0]+"</b>"
+        let resttext = explsplits.slice(1).join("：")
+
+        if(explsplits[0].includes("，")){
+            let index = explsplits[0].indexOf("，")
+            headword = "<b>"+explsplits[0].slice(0, index)+"</b> "+explsplits[0].slice(index)
+        }
+        li.innerHTML = headword +" : "+ resttext+ "<br><b>-"+dictnames.find(dict=>dict.id == dictid).name+"</b>"
         return li
     }
 }
 
-
-function removeProgressBar(){
-    document.querySelector("#progressbar").innerHTML = ""
-}
-
-
-function showAlertBox(){
-    alert("প্রোগ্রাম নির্মাতা: জ্ঞানশান্ত ভিক্ষু, \n Email: schakma94@gmail.com \n ধর্মদান সকল দানকে জয় করে।")
-}
-
-ipcrenderer.on("show-about-alertbox", showAlertBox)
