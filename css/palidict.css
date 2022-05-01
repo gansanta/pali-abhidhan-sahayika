@@ -102,6 +102,8 @@ hr{
     align-items: center;
 }
 .inputdiv{
+    display: flex;
+    flex-direction: row;
     text-align: center;
     flex: 3;
 }
@@ -473,3 +475,15 @@ td{
     padding: 0
 }
   /* ********** Modal box css ends here****** */
+  .specialchardiv{
+    display: flex;
+    flex-direction: column;
+}
+  .charspan{
+    padding: 0 10px;
+  }
+  .charspan:hover{
+    background-color: #7A6262;
+    color:rgb(255, 255, 255);
+    cursor: copy ;
+  }

@@ -1,5 +1,6 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
+const { dialog } = require('electron')
 
 let indexwindow
 function createIndexWindow () {
@@ -56,9 +57,17 @@ function setMenu(){
   },
    {
       label: 'About',
-      click(){
-        indexwindow.webContents.send("show-about-alertbox")
-      }
+      click(item, focusedWindow){
+         if(focusedWindow) {
+            dialog.showMessageBox(focusedWindow, { 
+               message: "অনেকগুলো পালি অভিধানের সংগ্রহ",
+               type:"info",
+               title:"পালি অভিধান সহায়িকা",
+               detail:"\nContact: schakma94@gmail.com",
+            })
+         }
+         
+     }
    }
   ])
   Menu.setApplicationMenu(menu)

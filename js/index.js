@@ -69,6 +69,17 @@ function attachListners(){
         if(e.keyCode == "13") handlePaliInput(paliinput)
     }
 
+    let laspan = document.getElementById("laspan")
+    laspan.onclick = ()=>{
+        paliinput.value += "ল়"
+        paliinput.focus()
+    }
+    let vaspan = document.getElementById("vaspan")
+    vaspan.onclick = ()=>{
+        paliinput.value += "ৰ"
+        paliinput.focus()
+    }
+
     let enginput = document.querySelector("#enginput")
     enginput.oninput = ()=>{
         findEngWord(enginput.value)
@@ -187,7 +198,21 @@ function preProcessInput(value){
 }
 
 function processTextNew(bntext){
-    //get first char and find the directory of siongui
+    t1 = performance.now()
+    
+    //before anything else, take care of b and v
+    let pavagga = ["প","ফ","ব","ভ","ম"]
+    
+    if(bntext.includes("্ব")){
+        //get its index and its previous char
+        let bindex = bntext.indexOf("্ব")
+        if(bindex -1 >= 0){
+            let preindex = bindex-1
+            let previouschar = bntext[preindex]
+            if(!pavagga.includes(previouschar)) bntext = bntext.replace(/্ব/g,"্ৰ")
+        }
+    }
+
     let firstchar = [...bntext][0]
     const folderpath = path.join(process.resourcesPath,"assets","db",firstchar,"/") 
     
@@ -387,7 +412,14 @@ function showBnWordlist(mdbngroups){
     function getLi(i, bnword, bnworddocs){
         let li = document.createElement("li")
         li.classList = "wordli"
-        li.innerHTML = bnword
+        
+        //before displaying, change ্ৰ  for display purpose to  ্ব
+        let displayword = bnword
+        if(bnword.includes("্ৰ")){
+            displayword = bnword.replace(/্ৰ/g,"্ব")
+        }
+        
+        li.innerHTML = displayword
 
         li.onclick = ()=>{
             showMeaning(bnworddocs)
