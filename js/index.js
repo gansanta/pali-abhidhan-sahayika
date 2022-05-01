@@ -148,7 +148,7 @@ function getSelectedText(){
     return ""
 }
 function loadEngBNDB(){
-    const engbndbpath = path.join(__dirname,"db.json")
+    const engbndbpath = path.join(process.resourcesPath,"assets","db.json")
     FS.readFile(engbndbpath, 'utf-8', (err, data)=>{
         engbndict = JSON.parse(data)
         let loadingtime = ((performance.now()-t1)/1000).toFixed(2)
@@ -157,7 +157,7 @@ function loadEngBNDB(){
     })
 }
 function loadEngBNDB2(){
-    const engbndbpath2 = path.join(__dirname,"E2Bdatabase.json")
+    const engbndbpath2 = path.join(process.resourcesPath,"assets","E2Bdatabase.json") 
     FS.readFile(engbndbpath2, 'utf-8', (err, data)=>{
         engbndict2 = JSON.parse(data)
         let loadingtime = ((performance.now()-t1)/1000).toFixed(2)
@@ -189,11 +189,8 @@ function preProcessInput(value){
 function processTextNew(bntext){
     //get first char and find the directory of siongui
     let firstchar = [...bntext][0]
-    //const folderpath = path.join("siongui",firstchar,"/")
-    const folderpath = path.join("db",firstchar,"/")
-    //loadFolderNew(folderpath, firstchar, bntext)
-    //
-    //console.log(bntext)
+    const folderpath = path.join(process.resourcesPath,"assets","db",firstchar,"/") 
+    
     findAllFilesWithFirstandSecondChar(folderpath, firstchar, bntext)
 }
 
@@ -269,8 +266,7 @@ function getDocsFromFilelist(filelist, firstchar, bntext){
             if(fileindex < filelist.length){
                 //console.log("handling file "+filelist[fileindex]+" at "+fileindex)
                 let dbfile = filelist[fileindex]
-                //const dbpath = path.join(__dirname,'siongui',firstchar,dbfile)
-                const dbpath = path.join(__dirname,'db',firstchar,dbfile)
+                const dbpath = path.join(process.resourcesPath,"assets","db",firstchar,dbfile)
                 
                 getFilteredDBDocsNew(dbpath, bntext).then(docs=>{
                     doclist.push(...docs)
@@ -452,81 +448,6 @@ function removeProgressBar(){
     document.querySelector("#progressbar").innerHTML = ""
 }
 
-function createSubfolder(subfolderindex, subfolders, dbobject){
-    if(subfolderindex < subfolders.length){
-        //get files inside subfolder
-        let subfolder = subfolders[subfolderindex]
-        let subfolderobj = dbobject[subfolder]
-
-        //show subfolder progress
-        let percentage = Math.trunc((subfolderindex/(subfolders.length-1))*100)
-        document.querySelector("#topinnerbar").style.width = percentage+"%"
-        document.querySelector("#toppercentagebar").innerHTML = percentage+"%"
-
-        let files = Object.keys(subfolderobj)
-        let fileindex = 0
-
-        createFile(fileindex, files, subfolderobj, subfolderindex, subfolders, dbobject)
-
-    }
-    else{
-        //subfolders complete, db creation complete
-        console.log(subfolders.length," folders created. Db rewriting complete.")
-        let loadingtime = ((performance.now()-t1)/1000).toFixed(2)
-        paliinfo.innerHTML = "<br>Database loaded in "+loadingtime+" seconds"
-        document.querySelector("#paliinput").disabled = false
-        document.querySelector("#palidata").innerHTML = ""
-
-        //hide progressbar
-        removeProgressBar()
-    }
-}
-
-function createFile(fileindex, files, subfolderobj, subfolderindex, subfolders, dbobject){
-    if(fileindex < files.length){
-        let file = files[fileindex]
-        let subfolder = subfolders[subfolderindex]
-        let docs = subfolderobj[file]
-
-        //show file progress
-        let percentage = Math.trunc((fileindex/(files.length-1))*100)
-        document.querySelector("#innerbar").style.width = percentage+"%"
-        document.querySelector("#percentagebar").innerHTML = percentage+"%"
-
-
-        rewriteDocs(docs, file,subfolder )
-    }
-    else{
-        //no more files to rewrite in the subfolder
-
-
-        //so start next subfolder
-        subfolderindex++
-        createSubfolder(subfolderindex, subfolders, dbobject)
-
-    }
-
-    function rewriteDocs(docs, file, subfolder){
-        let folder = "siongui"
-        //let filepath = path.join(__dirname, folder, subfolder, file)
-        //let filepath = folder+"/"+subfolder+"/"+file
-        let filepath = path.join(folder, subfolder, file)
-        //console.log(filepath)
-        const db = new Datastore({filename: filepath})
-        db.loadDatabase()
-
-        db.insert(docs, (err, newDocs)=>{
-            if(err) return console.log(err)
-
-            if(newDocs.length>0){
-                document.querySelector("#palidata").innerHTML = newDocs.length+" docs inserted in => "+subfolder+"/"+file
-
-                fileindex++
-                createFile(fileindex, files, subfolderobj, subfolderindex, subfolders, dbobject)
-            }
-        })
-    }
-}
 
 function showAlertBox(){
     alert("প্রোগ্রাম নির্মাতা: জ্ঞানশান্ত ভিক্ষু, \n Email: schakma94@gmail.com \n ধর্মদান সকল দানকে জয় করে।")

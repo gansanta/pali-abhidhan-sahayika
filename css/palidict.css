@@ -1,16 +1,16 @@
 
 @font-face{
     font-family: AdorshoLipi;
-    src: url("../font/AdorshoLipi.ttf");
+    src: url("../assets/font/AdorshoLipi.ttf");
 }
 @font-face{
     font-family: Padauk;
-    src: url("../font/Padauk-Regular.ttf");
+    src: url("../assets/font/Padauk-Regular.ttf");
 }
 
 @font-face{
     font-family: Zawgyi;
-    src: url("../font/Zawgyi-One-20051130.ttf");
+    src: url("../assets/font/Zawgyi-One-20051130.ttf");
 }
 
 body{
