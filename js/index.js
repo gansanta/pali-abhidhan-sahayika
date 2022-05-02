@@ -489,7 +489,7 @@ function showBnWordlist(mdbngroups){
             }
             
         }
-        else if(bntext && bntext.includes("হ")){
+        else if(bntext && bntext.includes("হ") && !bntext.startsWith("হ")){
             let hindex = bntext.indexOf("হ")
             let prehindex = hindex-1
             if(prehindex >= 0){

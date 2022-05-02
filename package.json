@@ -1,6 +1,6 @@
 {
   "name": "paliabhidhansahayika",
-  "version": "0.0.0",
+  "version": "3.2.0",
   "description": "Pali Abhidhan Sahayika 03 windows version",
   "main": "main.js",
   "author": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "build-exe": "electron-packager . --platform=win32 --arch=x64 paliabhidhansahayika --icon=./assets/images/picon.ico --extra-resource='./assets/'"
+    "build-exe": "electron-packager . --platform=win32 --arch=x64 paliabhidhansahayika --icon='C:/Users/ASUS/source/mygithubrepos/projectassets/pali-abhidhan-sahayika/assets/images/picon.ico' --extra-resource='C:/Users/ASUS/source/mygithubrepos/projectassets/pali-abhidhan-sahayika/assets/'"
   },
   "devDependencies": {
     "electron": "^16.0.4"
