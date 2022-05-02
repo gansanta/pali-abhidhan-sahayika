@@ -509,10 +509,9 @@ function showBnWordlist(mdbngroups){
             }
         }
         else  wordlist.appendChild(getLi(i, bnword, bnworddocs))
-
-
     }
 
+    if(wordlist.childElementCount > 0) wordlist.firstElementChild.click()
     let loadingtime = ((performance.now()-t1)/1000).toFixed(2)
     paliinfo.innerHTML = "<br> Search ended... time elpased "+loadingtime+"s."
     paliinfo.innerHTML += "<br> "+bnwords.length+" words found. You may try with different spelling."
@@ -615,4 +614,3 @@ function showBnWordlist(mdbngroups){
         return li
     }
 }
-
