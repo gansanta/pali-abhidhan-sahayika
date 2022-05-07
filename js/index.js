@@ -117,7 +117,6 @@ window.onload = ()=>{
 function attachListners(){
     let paliinput = document.querySelector("#paliinput")
     paliinput.onkeydown = (e)=>{
-        //console.log(e.keyCode)
         //on enter, start handling input
         if(e.keyCode == "13") handlePaliInput(paliinput)
     }
@@ -233,7 +232,6 @@ function handlePaliInput(inputelement){
     t1 = performance.now()
 
     let value = inputelement.value.trim()
-    //console.log(value)
     if(value == null || value.length == 0) return
 
     preProcessInput(value)
@@ -252,7 +250,6 @@ function preProcessInput(value){
 
 function processTextNew(bntext){
     t1 = performance.now()
-    
     //before anything else, take care of b and v
     let pavagga = ["প","ফ","ব","ভ","ম"]
     
@@ -276,10 +273,12 @@ function processTextNew(bntext){
             let newbntext = bntext.slice(0,prehindex-1) + bntext.slice(hindex+1)
             bntext = newbntext
         }
+        //else if(prehindex >= 0 && bntext[prehindex] == "ব") bntext = bntext.slice(0,prehindex)+"ৰ"+bntext.slice(hindex+1)
         else if(prehindex >= 0){
            let newbntext = bntext.slice(0,prehindex) + bntext.slice(hindex+1)
            bntext = newbntext
         }
+
     }
     let firstchar = [...bntext][0]
     const folderpath = path.join(process.resourcesPath,"assets","db",firstchar,"/") 
@@ -300,14 +299,11 @@ function findAllFilesWithFirstandSecondChar(folderpath, firstchar, bntext){
         paliinfo.innerHTML += "<br> searching... please wait."
         //filter out unnecessary files
         files = files.filter(file => !file.endsWith("~"))
-        //console.log(files)
         let file = findfilebnNew(files, bntext)
-        console.log(file)
 
         if(file) {
             let mfiles = [file]
             getDocsFromFilelist(mfiles, firstchar, bntext).then(docs=>{
-                console.log(docs.length)
                 if(docs.length > 0) prepagreMacthedDocs(docs)
                 else {
                     let loadingtime = ((performance.now()-t1)/1000).toFixed(2)
@@ -326,9 +322,6 @@ function prepagreMacthedDocs(matcheddocs){
 
     let mdgroups = {}
     for(let i=0; i< matcheddocs.length; i++){
-        //console.log(matcheddocs[i].paliwordbn)
-        //let pword = matcheddocs[i].paliword
-
         let pword = matcheddocs[i].paliwordbn
 
         let doc = matcheddocs[i]
@@ -357,7 +350,6 @@ function getDocsFromFilelist(filelist, firstchar, bntext){
 
         function handlefile(fileindex){
             if(fileindex < filelist.length){
-                //console.log("handling file "+filelist[fileindex]+" at "+fileindex)
                 let dbfile = filelist[fileindex]
                 const dbpath = path.join(process.resourcesPath,"assets","db",firstchar,dbfile)
                 
@@ -383,19 +375,14 @@ function getDocsFromFilelist(filelist, firstchar, bntext){
     })
 }
 function getFilteredDBDocsNew(dbpath, bntext){
-    //console.log("doing for ", dbpath)
-    console.log("filtering dbdocs for "+bntext)
     if(bntext.includes("ল়্"))bntext = bntext.split("ল়্").join("")
     else if(bntext.includes("ৰ্"))bntext = bntext.split("ৰ্").join("")
-    
-    console.log("finding for "+bntext)
     
     return new Promise((resolve,reject)=>{
         let db = getDB(dbpath)
         findAllDocs(db).then(docs=>{
             let matcheddocs = docs.filter(doc=> doc.paliwordbn.startsWith(bntext))
             matcheddocs.sort((a,b)=>a.paliwordbn.localeCompare(b.paliwordbn))
-            //console.log(matcheddocs.length)
             resolve(matcheddocs)
         }).catch(err =>reject(err))
     })
@@ -462,6 +449,7 @@ function showBnWordlist(mdbngroups){
 
     let palioptions = document.getElementById("palioptions")
     palioptions.innerHTML = ""
+    
 
     
     for(let i=0; i<bnwords.length; i++){
@@ -477,9 +465,13 @@ function showBnWordlist(mdbngroups){
             if(prehindex >= 0){
                 let engchars = "h"
                 let prechar = bntext[prehindex]
+
+                //for all ব্, replace with ৰ্ 
+                if(prechar == "ব") prechar = "ৰ"
+
                 let bb = bnromanall.filter(bn => bn.bn == prechar)
                 if(bb.length>0) engchars = bb[0].en+"h"
-                
+
                 let filtereddocs = bnworddocs.filter(bdoc => bdoc.paliword.includes(engchars) || bdoc.paliwordalt.includes(engchars) || bdoc.fuzzyspelling.includes(engchars))
 
                
@@ -494,14 +486,27 @@ function showBnWordlist(mdbngroups){
             let prehindex = hindex-1
             if(prehindex >= 0){
                 let engchars = "h"
+                let engcharsarr = ["h"]
                 let prechar = bntext[prehindex]
                 let bb = bnromanall.filter(bn => bn.bn == prechar)
                 if(bb.length>0) {
-                    if(bb[0].type == "consonant") engchars = bb[0].en+"ah"
-                    else if(bb[0].type == "vowel") engchars = bb[0].en+"h"
+                    if(prechar == "ং"){
+                        engcharsarr = bb.map(b => b.en+"h")
+                    }
+                    else if(bb[0].type == "consonant") {
+                        engchars = bb[0].en+"ah"
+                        engcharsarr = bb.map(b => b.en+"ah")
+                    }
+                    else if(bb[0].type == "vowel") {
+                        engchars = bb[0].en+"h"
+                        engcharsarr = bb.map(b => b.en+"h")
+                    }
                 }
+                
+                //let filtereddocs = bnworddocs.filter(bdoc => bdoc.paliword.includes(engchars) || bdoc.paliwordalt.includes(engchars) || bdoc.fuzzyspelling.includes(engchars))
+                let filtereddocs = bnworddocs.filter(bdoc => engcharsarr.find(echar => bdoc.paliword.includes(echar) || bdoc.paliwordalt.includes(echar) || bdoc.fuzzyspelling.includes(echar)))
+               
 
-                let filtereddocs = bnworddocs.filter(bdoc => bdoc.paliword.includes(engchars) || bdoc.paliwordalt.includes(engchars) || bdoc.fuzzyspelling.includes(engchars))
 
                 if(filtereddocs.length>0){
                     wordlist.appendChild(getLi(i, bnword, filtereddocs))
